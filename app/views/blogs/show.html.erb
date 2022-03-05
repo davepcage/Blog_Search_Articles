@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <br>
+  <%= @blog.title %>
+</p>
+
+<p>
+  <strong>Article:</strong>
+  <br>
+  <%= @blog.article %>
+</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+     
+      <th scope="col">Comment</th>
+      <th scope="col">Date</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      
+      <% @comments.reverse.first(3).each do |comment| %>
+
+      <td><%= comment.comment_for_article %></td>
+      <td><%= comment.created_at %></td>
+      <td><%= link_to 'Show', blog_comment_path(@blog,comment) %></td>
+      <td><%= link_to 'Edit', edit_blog_comment_path(@blog,comment)%></td>
+      <td><%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%if @comments.count > 3%>
+  <%= link_to 'ver mas >>>', blog_comments_path(@blog) %>
+  <br>
+  <br>
+<%end%>
+<br>
+<%= link_to 'Comentar', new_blog_comment_path(@blog) %> |
+<%= link_to 'Edit',  edit_blog_path(@blog) %> |
+<%= link_to 'Back', blogs_path %>

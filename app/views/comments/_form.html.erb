@@ -1,0 +1,28 @@
+
+
+<%= form_with(model:[@blog, comment]) do |form| %>
+  <% if comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :comment_for_article %>
+    <%= form.text_area :comment_for_article %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :blog_id, value: params[:blog_id] %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
