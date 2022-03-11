@@ -17,9 +17,12 @@
      
       <th scope="col">Comment</th>
       <th scope="col">Date</th>
+      <th scope="col">User</th>
       <th scope="col"></th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <% if user_signed_in? %>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -29,9 +32,17 @@
 
       <td><%= comment.comment_for_article %></td>
       <td><%= comment.created_at %></td>
+      <td><%= comment.user_id %></td>
       <td><%= link_to 'Show', blog_comment_path(@blog,comment) %></td>
-      <td><%= link_to 'Edit', edit_blog_comment_path(@blog,comment)%></td>
-      <td><%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% if user_signed_in? %>
+        <% if comment.user_id == current_user.id  %>
+          <td><%= link_to 'Edit', edit_blog_comment_path(@blog,comment)%></td>
+          <td><%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+          <td> </td>
+          <td> </td>
+        <% end %>
+      <% end %>
         </tr>
     <% end %>
   </tbody>
@@ -43,6 +54,9 @@
   <br>
 <%end%>
 <br>
-<%= link_to 'Comentar', new_blog_comment_path(@blog) %> |
-<%= link_to 'Edit',  edit_blog_path(@blog) %> |
+<% if user_signed_in? %>
+  <%= link_to 'Comentar', new_blog_comment_path(@blog) %> |
+  <%= link_to 'Edit',  edit_blog_path(@blog) %> |
+<%end%>
+
 <%= link_to 'Back', blogs_path %>

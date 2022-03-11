@@ -32,6 +32,12 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><%= submit_tag "Search" %></button>
         </form>
       </div>
+      <% if user_signed_in? %>
+        <%= link_to 'Sing out', destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to 'Sing in', new_user_session_path %>
+      <% end %>
+ 
     </nav>
 
     <%= yield %>

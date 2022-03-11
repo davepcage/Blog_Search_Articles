@@ -8,9 +8,12 @@
       <th scope="col">Title</th>
       <th scope="col">Article</th>
       <th scope="col">Comments</th>
+      <th scope="col">Users</th>
       <th scope="col"></th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <% if user_signed_in? %>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -19,23 +22,25 @@
       <tr>
         <td><%= blog.title %></td>
         <td><%= blog.article %></td>
-        <% if blog.comments.length == 0 %>
-          <td>No comments</td>
-        <% else %>
-          <% if blog.comments.length > 1  %>
-            <td><%= blog.comments.length %> comments</td>
-          <% else %>
-          <td><%= blog.comments.length %> comment</td>
-          <% end %>
-        <%end%>
+        <td><%= blog.count_comments %></td> 
+        <td><%= blog.user_id %></td> 
         <td><%= link_to 'Show', blog %></td>
-        <td><%= link_to 'Edit', edit_blog_path(blog) %></td>
-        <td><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if user_signed_in? %>
+          <% if blog.user_id == current_user.id  %>
+            <td><%= link_to 'Edit', edit_blog_path(blog) %></td>
+            <td><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% else %>
+            <td> </td>
+            <td> </td>
+          <% end %>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Blog', new_blog_path %>
+<%= will_paginate @blogs %>
+<% if user_signed_in? %>
+  <%= link_to 'New Blog', new_blog_path %>
+<% end %>

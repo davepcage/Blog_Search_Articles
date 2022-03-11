@@ -1,12 +1,14 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
   before_action :set_blog, only: %i[ index show new edit create update destroy ]
+  before_action :authenticate_user!, only: %i[new edit create update destroy]
+
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.where(blog_id: params[:blog_id])
+    @comments = Comment.where(blog_id: params[:blog_id]).order('created_at desc').paginate(page: params[:page], per_page: 2)
     if params[:search].nil? == false
-      @comments = Comment.where("comment_for_article LIKE ?", "%" +params[:search]+ "%")
+      @comments = @comments.where("comment_for_article LIKE ?", "%" +params[:search]+ "%")
     end 
   end
 
@@ -25,7 +27,7 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    @comment = Comment.new(comment_params)
+    @comment = Comment.new(comment_params.merge(user_id: current_user[:id]))
 
     respond_to do |format|
       if @comment.save
