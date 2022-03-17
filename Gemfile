@@ -31,6 +31,7 @@ gem 'awesome_print', '~> 1.8'
 gem 'will_paginate', '~> 3.3'
 gem 'devise'
 gem 'gravtastic'
+gem "letter_opener", group: :development
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
