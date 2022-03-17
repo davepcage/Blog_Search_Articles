@@ -23,7 +23,7 @@
         <td><%= blog.title %></td>
         <td><%= blog.article %></td>
         <td><%= blog.count_comments %></td> 
-        <td><%= blog.user_id %></td> 
+        <td><%= blog.user.email %></td> 
         <td><%= link_to 'Show', blog %></td>
         <% if user_signed_in? %>
           <% if blog.user_id == current_user.id  %>

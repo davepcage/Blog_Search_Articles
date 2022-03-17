@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
 
   # GET /blogs or /blogs.json
   def index
-    @blogs = Blog.all.order('created_at desc').paginate(page: params[:page], per_page: 3)
+    @blogs = Blog.all.order('created_at desc').paginate(page: params[:page], per_page: 9)
     if params[:search].present?
       @blogs = Blog.where("article LIKE ?", "%#{params[:search]}%")
     end  
@@ -29,8 +29,9 @@ class BlogsController < ApplicationController
 
   # POST /blogs or /blogs.json
   def create
-    @blog = Blog.new(blog_params.merge(user_id: current_user[:id]))
-    
+    @blog = Blog.new(blog_params)
+    @blog.user = current_user
+
     respond_to do |format|
       if @blog.save
         format.html { redirect_to blog_url(@blog), notice: "Blog was successfully created." }

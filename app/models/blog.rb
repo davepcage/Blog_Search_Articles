@@ -1,7 +1,6 @@
 class Blog < ApplicationRecord
-
+	belongs_to :user
 	has_many :comments, {dependent: :destroy}
-
 
 	def count_comments
 		if comments.length == 0

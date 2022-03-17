@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.where(blog_id: params[:blog_id]).order('created_at desc').paginate(page: params[:page], per_page: 2)
+    @comments = Comment.where(blog_id: params[:blog_id]).order('created_at desc').paginate(page: params[:page], per_page: 5)
     if params[:search].nil? == false
       @comments = @comments.where("comment_for_article LIKE ?", "%" +params[:search]+ "%")
     end 
@@ -27,7 +27,8 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    @comment = Comment.new(comment_params.merge(user_id: current_user[:id]))
+    @comment = Comment.new(comment_params)
+    @comment.user = current_user
 
     respond_to do |format|
       if @comment.save
