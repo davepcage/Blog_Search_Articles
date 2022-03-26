@@ -57,15 +57,16 @@ class BlogsController < ApplicationController
   def update
     if @blog.user_id != current_user.id
       redirect_to blog_url(@blog)
-    else  
-      respond_to do |format|
-        if @blog.update(blog_params)
-          format.html { redirect_to blog_url(@blog), notice: "Blog was successfully updated." }
-          format.json { render :show, status: :ok, location: @blog }
-        else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @blog.errors, status: :unprocessable_entity }
-        end
+      return   
+    end
+
+    respond_to do |format|
+      if @blog.update(blog_params)
+        format.html { redirect_to blog_url(@blog), notice: "Blog was successfully updated." }
+        format.json { render :show, status: :ok, location: @blog }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @blog.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,12 +75,12 @@ class BlogsController < ApplicationController
   def destroy
     if @blog.user_id != current_user.id
       redirect_to blog_url(@blog)
-    else   
-      @blog.destroy
-      respond_to do |format|
-        format.html { redirect_to blogs_url, notice: "Blog was successfully destroyed." }
-        format.json { head :no_content }
-      end
+      return
+    end  
+    @blog.destroy
+    respond_to do |format|
+      format.html { redirect_to blogs_url, notice: "Blog was successfully destroyed." }
+      format.json { head :no_content }
     end
   end
 

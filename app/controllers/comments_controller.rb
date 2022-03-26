@@ -51,15 +51,15 @@ class CommentsController < ApplicationController
   def update
     if @comment.user_id != current_user.id
       redirect_to blog_url(@blog)
-    else
-      respond_to do |format|
-        if @comment.update(comment_params)
-          format.html { redirect_to blog_url(@blog), notice: "Comment was successfully updated." }
-          format.json { render :show, status: :ok, location: @comment }
-        else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @comment.errors, status: :unprocessable_entity }
-        end
+      return
+    end
+    respond_to do |format|
+      if @comment.update(comment_params)
+        format.html { redirect_to blog_url(@blog), notice: "Comment was successfully updated." }
+        format.json { render :show, status: :ok, location: @comment }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -68,13 +68,13 @@ class CommentsController < ApplicationController
   def destroy
     if @comment.user_id != current_user.id
       redirect_to blog_url(@blog)
-    else
-      @comment.destroy
+      return
+    end
+    @comment.destroy
 
-      respond_to do |format|
-        format.html { redirect_to blog_url(@blog), notice: "Comment was successfully destroyed." }
-        format.json { head :no_content }
-      end
+    respond_to do |format|
+      format.html { redirect_to blog_url(@blog), notice: "Comment was successfully destroyed." }
+      format.json { head :no_content }
     end
   end
 
