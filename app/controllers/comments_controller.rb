@@ -26,6 +26,9 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
+    if @comment.user_id != current_user.id
+      redirect_to blog_url(@blog)
+    end
   end
 
   # POST /comments or /comments.json
@@ -46,24 +49,32 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to blog_url(@blog), notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+    if @comment.user_id != current_user.id
+      redirect_to blog_url(@blog)
+    else
+      respond_to do |format|
+        if @comment.update(comment_params)
+          format.html { redirect_to blog_url(@blog), notice: "Comment was successfully updated." }
+          format.json { render :show, status: :ok, location: @comment }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
-    @comment.destroy
+    if @comment.user_id != current_user.id
+      redirect_to blog_url(@blog)
+    else
+      @comment.destroy
 
-    respond_to do |format|
-      format.html { redirect_to blog_url(@blog), notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to blog_url(@blog), notice: "Comment was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 
