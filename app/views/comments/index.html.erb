@@ -1,41 +1,41 @@
 <p id="notice"><%= notice %></p>
 
-
-<table>
-<table class="table table-striped">
+<table id="table" class="table table-dark">
   <thead>
-    <tr>
-     
+    <tr> 
+      <th scope="col"></th>
       <th scope="col">Comments</th>
       <th scope="col">Date</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <th scope="col">Email</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      
-    <% @comments.reverse.each do |comment| %>
-      <td><%= comment.comment_for_article %></td>
-      <td><%= comment.created_at %></td>
-       <td><%= comment.user.email %></td>
-      <td><%= link_to 'Show', blog_comment_path(@blog,comment) %></td>
-      <% if comment.user_id == current_user.id  %>
-        <td><%= link_to 'Edit', edit_blog_comment_path(@blog,comment)%></td>
-        <td><%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% else %>
-        <td> </td>
-        <td> </td>
-      <% end %>
-        </tr>
+  <tbody >    
+    <% @comments.each do |comment| %>
+      <tr>
+        <td><%= image_tag comment.user.gravatar_url %></td>
+        <td><%= comment.comment_for_article %></td>
+        <td><%= comment.created_at %></td>
+         <td><%= comment.user.email %></td>
+        <% if comment.user_id == current_user.id  %>
+          <td><%= link_to 'Edit', edit_blog_comment_path(@blog,comment), class: "btn-dark"%></td>
+          <td><%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-dark" %></td>
+        <% else %>
+          <td> </td>
+          <td> </td>
+        <% end %>
+      </tr>
     <% end %>
   </tbody>
 </table>
-<br>
-<% if user_signed_in? %>
-  <%= link_to 'Comentar', new_blog_comment_path(@blog) %> |
-<%end%>
-<%= link_to 'Back',  blog_path(@blog) %>
-<%= will_paginate @comments %>
+  <div class="row">
+    <% if user_signed_in? %>
+    <p><%= link_to 'Comentar', new_blog_comment_path(@blog), class: "btn-dave" %> | </p>
+    <%end%>
+    <p> <%= link_to 'Back', blog_path(@blog), class: "btn-dark" %></p>
+  </div>
+  <div class="container text-right">
+    <%= will_paginate @comments , class: "btn-dark"%>
+  </div>
+

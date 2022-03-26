@@ -6,10 +6,13 @@ class CommentsController < ApplicationController
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.where(blog_id: params[:blog_id]).order('created_at desc').paginate(page: params[:page], per_page: 5)
-    if params[:search].nil? == false
+    @comments = Comment.where(blog_id: params[:blog_id])
+
+    if params[:search].present?
       @comments = @comments.where("comment_for_article LIKE ?", "%" +params[:search]+ "%")
     end 
+
+    @comments = @comments.order('created_at desc').paginate(page: params[:page], per_page: 5)
   end
 
   # GET /comments/1 or /comments/1.json

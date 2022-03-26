@@ -9,6 +9,6 @@ class User < ApplicationRecord
   include Gravtastic
   gravtastic :secure => true,
               :filetype => :gif,
-              :size => 80
+              :size => 180
 
 end

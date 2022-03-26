@@ -11,39 +11,79 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
+   <!--    #33be5b;-->
+  <body id="body" class="m-0 pb-0"  >
+    <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
 
-  <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Articles</a>
+      <div class="navbar-brand">
+        <img src="https://urbancomunicacion.com/wp-content/uploads/2020/03/Minimalismo-en-el-Dise%C3%B1o-gr%C3%A1fico-.jpg" alt="Logo"> Letter's blog
+      </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a> <%= link_to 'Home', blogs_path %></a>
-
+            <a> <%= link_to 'Home', blogs_path, class:"navbar-brand" %></a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <%= text_field_tag  :search, params[:search] %>
-          <%= submit_tag "Search" %>
+          <%= text_field_tag  :search, params[:search], placeholder: " Search", class: "form-control mr-sm-2" %>
+          <%= submit_tag "Search" , class: "btn btn-outline-info my-2 my-sm-0"  %>
         </form>
+        <p></p>
+          <% if user_signed_in? %>
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a><%= image_tag current_user.gravatar_url, class: "pl-1 pt-2" %></a>
+                <a> <%= link_to 'Sing Out' , destroy_user_session_path, method: :delete, class: "nav-link" %></a>
+              </li>
+            </ul>
+          <% else %>
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a> <%= link_to 'Sing in', new_user_session_path, class: "nav-link" %></a>
+              </li>
+            </ul>
+          <% end %>
       </div>
-      <% if user_signed_in? %>
-
-        <p> <%= image_tag current_user.gravatar_url %>
-        <br>
-        <%= link_to 'Sing Out' , destroy_user_session_path, method: :delete %></p>    
-      <% else %>
-        <%= link_to 'Sing in', new_user_session_path %>
-      <% end %>
- 
     </nav>
 
-    <%= yield %>
+
+
+ 
+    <div class="container pb-5 mb-5">
+      <%= yield %>
+    </div>
+  
+    <footer id="footer" class="pb-2 pt-2 text-center fixed-bottom">
+      <div class="row ">
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">¿Quienes somos?</a>
+        </div>
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">Contáctanos</a>
+        </div>
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">Preguntas frecuentes</a>
+        </div>
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">Términos y condiciones</a>
+        </div>
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">Privacidad</a>
+        </div>
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">Prensa</a>
+        </div>
+        <div class="col-3 col-md-4 col-lg">
+          <a href="">Estudiantes</a>
+        </div>
+      </div>
+    </footer>
+   
+    
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>

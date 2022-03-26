@@ -1,63 +1,67 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <br>
-  <%= @blog.title %>
-</p>
+<div id="cards" class="card text-center">
+  <div class="card-header">
+    <%= @blog.user.email %>
+  </div>
 
-<p>
-  <strong>Article:</strong>
-  <br>
-  <%= @blog.article %>
-</p>
-<table class="table table-striped">
-  <thead>
-    <tr>
-     
-      <th scope="col">Comment</th>
-      <th scope="col">Date</th>
-      <th scope="col">User</th>
-      <th scope="col"></th>
-      <% if user_signed_in? %>
-        <th scope="col"></th>
-        <th scope="col"></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      
-      <% @comments.reverse.first(3).each do |comment| %>
-
-      <td><%= comment.comment_for_article %></td>
-      <td><%= comment.created_at %></td>
-      <td><%= comment.user.email %></td>
-      <td><%= link_to 'Show', blog_comment_path(@blog,comment) %></td>
-      <% if user_signed_in? %>
-        <% if comment.user_id == current_user.id  %>
-          <td><%= link_to 'Edit', edit_blog_comment_path(@blog,comment)%></td>
-          <td><%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% else %>
-          <td> </td>
-          <td> </td>
-        <% end %>
-      <% end %>
-        </tr>
+  <div class="card-body">
+    <h5 class="card-title"><strong><%= @blog.title %></strong></h5>
+    <p class="card-text"><%= @blog.article %></p>
+    <div class="text-muted">
+      <%= @blog.created_at %>
+    </div>
+  </div>
+  <div class="container text-right">
+    <% if @blog.user_id == current_user.id  %> 
+      <%= link_to 'Edit',  edit_blog_path(@blog) %> |
+      <%= link_to 'Destroy', @blog, method: :delete, data: { confirm: 'Are you sure?' }%>
     <% end %>
-  </tbody>
-</table>
-<br>
-<%if @comments.count > 3%>
-  <%= link_to 'ver mas >>>', blog_comments_path(@blog) %>
-  <br>
-  <br>
-<%end%>
-<br>
-<% if user_signed_in? %>
-  <%= link_to 'Comentar', new_blog_comment_path(@blog) %> |
-  <%= link_to 'Edit',  edit_blog_path(@blog) %> |
-<%end%>
+  </div>
+  
+</div>
 
-<%= link_to 'Back', blogs_path %>
+    
+ 
+<br>
+<div id="cards" class="container">
+  <% @comments.each do |comment| %>
+    <div class="row justify-content-md-center">
+      <div class="card mb-3 col-8">
+        <div class="row no-gutters">
+          <div class="col-lg-2 pt-3 pb-3">
+            <%= image_tag comment.user.gravatar_url, style: "max-width: 80px;"%>
+          </div>
+          <div class="col-lg-10">
+            <div class="card-body">
+              <p class="card-text"><%= comment.comment_for_article %></p>
+              <p class="card-text"><small class="text-muted"><%= comment.created_at %></small></p>
+            </div>
+            <% if user_signed_in? %>
+              <div class="container text-right" >
+                <% if comment.user_id == current_user.id  %>
+                  <p><%= link_to 'Edit', edit_blog_comment_path(@blog,comment)%> |
+                  <%= link_to 'Destroy', blog_comment_url(@blog,comment), method: :delete, data: { confirm: 'Are you sure?'} %></p>
+                <% end %>
+              </div>
+            <% end %>  
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>  
+</div>
+<div class="container text-right">
+  <% if @comments.count > 3 %>
+    <%= link_to 'ver mas >>>', blog_comments_path(@blog), class: "btn btn-outline-info" %>
+  <% end %>
+  <br>
+  <% if user_signed_in? %>
+    <%= link_to 'Comentar', new_blog_comment_path(@blog) %> |
+   <% end %>
+  <%= link_to 'Back', blogs_path %>
+</div>
+
+
+
 

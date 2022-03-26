@@ -13,3 +13,35 @@
  *= require_tree .
  *= require_self
  */
+
+#header img{
+    width: 80px;
+}
+
+#footer {
+    background: linear-gradient(90deg,#000000,#151c1f 25%,#444f55);
+    position: ;
+    bottom: 0;
+    width: 100%;
+    position: float;
+    
+}
+#footer a{
+    color: white;
+}
+
+#body{
+    background-color: #504d4a;
+    style: min-width: 540px;
+    color: white;
+}
+#cards{
+    color: #96551d;
+}
+
+.btn-dave{
+    color: blue;
+}
+/*#table{
+    color: white;
+}*/
