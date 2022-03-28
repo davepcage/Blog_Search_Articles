@@ -29,9 +29,7 @@ class BlogsController < ApplicationController
 
   # GET /blogs/1/edit
   def edit
-    if @blog.user_id != current_user.id
-      redirect_to blog_url(@blog)
-    end
+    redirect_on_invalid_user && return if incorrect_user?
   end
 
   # POST /blogs or /blogs.json
@@ -55,10 +53,7 @@ class BlogsController < ApplicationController
 
   # PATCH/PUT /blogs/1 or /blogs/1.json
   def update
-    if @blog.user_id != current_user.id
-      redirect_to blog_url(@blog)
-      return   
-    end
+    redirect_on_invalid_user && return if incorrect_user?
 
     respond_to do |format|
       if @blog.update(blog_params)
@@ -73,10 +68,8 @@ class BlogsController < ApplicationController
 
   # DELETE /blogs/1 or /blogs/1.json
   def destroy
-    if @blog.user_id != current_user.id
-      redirect_to blog_url(@blog)
-      return
-    end  
+    redirect_on_invalid_user && return if incorrect_user?
+     
     @blog.destroy
     respond_to do |format|
       format.html { redirect_to blogs_url, notice: "Blog was successfully destroyed." }
@@ -93,5 +86,13 @@ class BlogsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def blog_params
     params.require(:blog).permit(:title, :article)
+  end
+
+  def redirect_on_invalid_user
+    redirect_to blog_url(@blog)  
+  end
+
+  def incorrect_user?
+    @blog.user_id != current_user.id
   end
 end

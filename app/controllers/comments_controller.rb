@@ -26,9 +26,7 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    if @comment.user_id != current_user.id
-      redirect_to blog_url(@blog)
-    end
+    redirect_on_incorrect_user && return if other_user?
   end
 
   # POST /comments or /comments.json
@@ -49,10 +47,8 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    if @comment.user_id != current_user.id
-      redirect_to blog_url(@blog)
-      return
-    end
+    redirect_on_incorrect_user && return if other_user?
+    
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to blog_url(@blog), notice: "Comment was successfully updated." }
@@ -66,10 +62,8 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
-    if @comment.user_id != current_user.id
-      redirect_to blog_url(@blog)
-      return
-    end
+    redirect_on_incorrect_user && return if other_user?
+
     @comment.destroy
 
     respond_to do |format|
@@ -91,5 +85,13 @@ class CommentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def comment_params
       params.require(:comment).permit(:comment_for_article, :blog_id)
+    end
+
+    def other_user?
+      @comment.user_id != current_user.id
+    end
+
+    def redirect_on_incorrect_user
+      redirect_to blog_url(@blog) 
     end
 end
