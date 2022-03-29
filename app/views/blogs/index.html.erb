@@ -2,43 +2,51 @@
 <div class="container text-center">
   <h1><strong>Articles</strong></h1>
 </div>
-<% @group.each do |blog_two| %>
-  <div id="cards" class="d-md-flex flex-md-equal w-100 my-md-8 pl-md-8">
-    <% blog_two.each do |blog| %>
-      <div class=" col-md-6 mr-md-1 pt-1 px-1 pt-md-1 px-md-1 pb-md-1 text-center  overflow-hidden">
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row no-gutters">
-            <div class="col-md-4 ">
-              <div><%= image_tag blog.user.gravatar_url, class: "pl-3 pt-2" %></div>
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 ><%= blog.title %></h5>
-                <p class="card-text"><%= blog.article %></p>
-                <p class="card-text"><%= blog.comments_count %></p>
-                <p class="card-text"><small class="text-muted"><%= blog.created_at %></small></p>
-                <div class="container text-right">
-                  <a><%= link_to 'Show', blog %></a>
-                  <% if user_signed_in? %>
-                    <% if blog.user_id == current_user.id  %>
-                      <a> | <%= link_to 'Edit', edit_blog_path(blog) %></a>
-                      <a> | <%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></a>
-                    <% else %>
-                      <td> </td>
-                      <td> </td>
+<div class="container text-right">
+  <% if user_signed_in? %>
+    <%= link_to 'New Blog', new_blog_path, class:"btn btn-light" %>
+  <% end %>
+</div>
+<br>
+<div class="container">
+  <% @group.each do |blog_two| %>
+    <div id="cards" class="d-md-flex flex-md-equal w-100 my-md-8 pl-md-8">
+      <% blog_two.each do |blog| %>
+        <div class=" col-md-6 mr-md-1 pt-1 px-1 pt-md-1 px-md-1 pb-md-1 text-center  overflow-hidden">
+          <div class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+              <div class="col-lg-4 ">
+                <div><%= image_tag blog.user.gravatar_url, class: "pl-3 pt-2" %></div>
+              </div>
+              <div class="col-lg-8">
+                <div class="card-body">
+                  <h5 ><%= blog.title %></h5>
+                  <p class="card-text"><%= blog.article %></p>
+                  <p class="card-text"><%= blog.comments_count %></p>
+                  <p class="card-text"><small class="text-muted"><%= blog.created_at %></small></p>
+                  <div class="container text-right">
+                    <a><%= link_to 'Show', blog %></a>
+                    <% if user_signed_in? %>
+                      <% if blog.user_id == current_user.id  %>
+                        <a> | <%= link_to 'Edit', edit_blog_path(blog) %></a>
+                        <a> | <%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></a>
+                      <% else %>
+                        <td> </td>
+                        <td> </td>
+                      <% end %>
                     <% end %>
-                  <% end %>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 <br>
-<%= will_paginate @blogs %>
-<% if user_signed_in? %>
-  <%= link_to 'New Blog', new_blog_path %>
-<% end %>
+<div class="container text-right">
+  <%= will_paginate @blogs %>
+</div>
+
