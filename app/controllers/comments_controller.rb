@@ -31,8 +31,7 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    @comment = Comment.new(comment_params)
-    @comment.user = current_user
+    @comment = Comment.new(comment_params.merge(blog: @blog, user: current_user))   
 
     respond_to do |format|
       if @comment.save

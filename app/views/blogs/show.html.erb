@@ -22,7 +22,7 @@
 
 <br>
 <div  class="container">
-  <%= form_with(model:[@blog, @comment]) do |form| %>
+  <%= form_with(model: [@blog, @comment]) do |form| %>
     <div class="row justify-content-md-center">
       <div class=" mb-3 col-8">
         <div class="row no-gutters">
@@ -31,15 +31,13 @@
           </div>
           <div class="col-12 col-md-12 col-lg-10">
             <p ><%= form.text_area :comment_for_article, class:"col-12 col-md-12 col-lg-10" %></p>
-            <%= form.hidden_field :blog_id, value: @blog.id %>
-            <%= form.submit nil, class: "text-right" %>
+            <%= form.submit nil, id:"clickme", class: "text-right" %>
           </div>
         </div>
       </div>
     </div>
   <% end %>  
 </div>
- 
 <br>
 <div id="cards" class="container">
   <% @comments.each do |comment| %>

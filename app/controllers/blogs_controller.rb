@@ -15,7 +15,7 @@ class BlogsController < ApplicationController
 
   # GET /blogs/1 or /blogs/1.json
   def show
-    @comment = Comment.new
+    @comment = Comment.new(blog_id: params[:id] )
     @comments = Comment.where(blog_id: params[:id])
     if params[:search].present?
       @comments = @comments.where("comment_for_article LIKE ?", "%" + params[:search] + "%")
