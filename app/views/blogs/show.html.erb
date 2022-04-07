@@ -19,10 +19,9 @@
     <% end %>
   </div>
 </div>
-
 <br>
 <div  class="container">
-  <%= form_with(model: [@blog, @comment]) do |form| %>
+  <%= form_with(model: [@blog, @comment], local: false) do |form| %>
     <div class="row justify-content-md-center">
       <div class=" mb-3 col-8">
         <div class="row no-gutters">
@@ -31,7 +30,7 @@
           </div>
           <div class="col-12 col-md-12 col-lg-10">
             <p ><%= form.text_area :comment_for_article, class:"col-12 col-md-12 col-lg-10" %></p>
-            <%= form.submit nil, id:"clickme", class: "text-right" %>
+            <%= form.submit nil, class: "text-right" %>
           </div>
         </div>
       </div>
@@ -39,6 +38,7 @@
   <% end %>  
 </div>
 <br>
+<div id="ajax"></div>
 <div id="cards" class="container">
   <% @comments.each do |comment| %>
     <div class="row justify-content-md-center">

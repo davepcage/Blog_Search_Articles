@@ -1,0 +1,26 @@
+
+<div id="cards" class="container">
+  <div class="row justify-content-md-center">
+    <div class="card mb-3 col-8">
+      <div class="row no-gutters">
+        <div class="col-lg-2 pt-3 pb-3">
+          <%= image_tag @comment.user.gravatar_url, style: "max-width: 80px;"%>
+        </div>
+        <div class="col-lg-10">
+          <div class="card-body">
+            <p class="card-text"><%= @comment.comment_for_article %></p>
+            <p class="card-text"><small class="text-muted"><%= @comment.created_at %></small></p>
+          </div>
+          <% if user_signed_in? %>
+            <div class="container text-right" >
+              <% if @comment.user_id == current_user.id  %>
+                <p><%= link_to 'Edit', edit_blog_comment_path(@blog,@comment)%> |
+                <%= link_to 'Destroy', blog_comment_url(@blog,@comment), method: :delete, data: { confirm: 'Are you sure?'} %></p>
+              <% end %>
+            </div>
+          <% end %>  
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
