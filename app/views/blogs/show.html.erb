@@ -30,7 +30,7 @@
           </div>
           <div class="col-12 col-md-12 col-lg-10">
             <p ><%= form.text_area :comment_for_article, class:"col-12 col-md-12 col-lg-10" %></p>
-            <%= form.submit nil, class: "text-right" %>
+            <%= form.submit nil, id: "clickme", class: "text-right" %>
           </div>
         </div>
       </div>
@@ -68,15 +68,8 @@
 </div>
 
 <div class="container text-right">
-  <% if @comments.count > 3 %>
-    <%= link_to 'ver mas >>>', blog_comments_path(@blog), class: "btn btn-outline-info" %>
-  <% end %>
-  <br>
   <%= link_to 'Back', blogs_path,class:"btn btn-light" %>
+  <% if @comments.count > 3 %>
+    <%= link_to 'ver mas >>>', blog_comments_path(@blog), class: "btn btn-light" %>
+  <% end %>
 </div>
-
-
-
-
-
-
